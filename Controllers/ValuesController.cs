@@ -30,8 +30,21 @@ namespace TodoApi.Controllers
         [HttpPost]
         public ActionResult<String> Post(PostRequestData post)
         {
+
+
             GameResolver gameResolver = new GameResolver();
-            return gameResolver.GetWinner(post.Players);
+            Colors color = gameResolver.GetCurrentRule(post.Canvas);
+
+            switch (color)
+            {
+                case(Colors.RED):
+                    return gameResolver.GetWinner(post.Players);
+                case (Colors.ORANGE):
+                    return gameResolver.SameNumbers(post.Players);
+                default:
+                    throw new ArgumentException();
+            }
+
         }
 
         // PUT api/values/5
